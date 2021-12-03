@@ -12,7 +12,7 @@ import json
 
 theme = dbc.themes.FLATLY
 
-with open('static/colors.json') as f:
+with open('colors.json') as f:
     colors = json.loads(f.read())
 
 # create dataframes
@@ -42,10 +42,10 @@ df_weekly_averages['FG%'] = df_weekly_averages['FG%'].multiply(
 df_weekly_averages['FT%'] = df_weekly_averages['FT%'].multiply(
     100).map('{:,.2f}%'.format)
 
-# stop plotly from rendering weeks as decimal number on the x-axis
+# stop plotly from rendering non-integer weeks on the x-axis
 df_scoreboard["WEEK"] = [str(w) for w in df_scoreboard["WEEK"]]
 
-# define categories for the drop downs
+
 categories = ['FGM', 'FGA', 'FG_PERCENT', 'FTM', 'FTA', 'FT_PERCENT',
               'THREES', 'PTS', 'REB', 'AST', 'STL', 'BLK', 'TO']
 
@@ -55,9 +55,6 @@ app = dash.Dash(external_stylesheets=[theme], meta_tags=[
     {"name": "viewport", "content": "width=device-width, initial-scale=1"},
 ],
     title='NBA Fanalytics')
-
-application = app.server
-
 
 # create the html layout
 app.layout = html.Div(
@@ -131,7 +128,6 @@ app.layout = html.Div(
 )
 
 
-# callbacks for the dropdown and chart rendering
 @app.callback(
     Output("stat-over-time", "figure"),
     # Output("stat-table","figure"),
